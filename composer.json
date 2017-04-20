@@ -3,5 +3,8 @@
     "autoload": {
         "psr-0": {
         }
+    },
+    "require": {
+        "deployer/deployer": "^4.3"
     }
 }
