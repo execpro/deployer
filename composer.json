@@ -5,6 +5,6 @@
         }
     },
     "require": {
-        "deployer/deployer": "^4.3"
+        "deployer/deployer": "^4.3,<5"
     }
 }
