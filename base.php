@@ -11,7 +11,7 @@ require 'vendor/eis/deployer/deploy_tasks.php';
 require 'vendor/eis/deployer/teardown_tasks.php';
 
 
-serverList('servers.yml');
+serverList(DEPLOYER_ROOT_DIR . '/servers.yml');
 
 $repo_url = exec("git config --get remote.origin.url");
 
@@ -19,11 +19,10 @@ if(!$repo_url) {
     echo("Please make sure you're running this in a project repository.");
 }
 
-set('repository', 'git@bitbucket.org:eisweb/mir.git');
+set('repository', $repo_url);
 set('keep_releases', 3);
 
 set('shared_dirs', ['assets', 'silverstripe-cache']);
-set('shared_files', ['_ss_environment.php']);
 set('writable_dirs', ['assets', 'silverstripe-cache']);
 
 task('show_keys', function () {
