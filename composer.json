@@ -1,8 +1,7 @@
 {
-    name: "eis/deployer",
-    autoload: {
-        psr-0: {
-            EIS\Deployer: "src"
+    "name":"eis/deployer",
+    "autoload": {
+        "psr-0": {
         }
     }
 }
