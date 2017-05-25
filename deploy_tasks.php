@@ -58,7 +58,7 @@ task(
         $releasePath = parse('{{deploy_path}}/current');
         if (
             !fileExists($releasePath . '/_ss_environment.php') &&
-            fileExists(parse('{{deploy_path}}/_ss_envrironment.php'))
+            fileExists(parse('{{deploy_path}}/_ss_environment.php'))
         ) {
                 run("cd {$releasePath} && ln -s ../../_ss_environment.php _ss_environment.php");
         }
