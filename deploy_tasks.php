@@ -55,12 +55,17 @@ task(
 task(
 	'deploy:ssenv',
 	function() {
-        $releasePath = parse('{{deploy_path}}/current');
-        if (
-            !fileExists($releasePath . '/_ss_environment.php') &&
-            fileExists(parse('{{deploy_path}}/_ss_environment.php'))
-        ) {
-                run("cd {$releasePath} && ln -s ../../_ss_environment.php _ss_environment.php");
+        $deployPath = parse('{{deploy_path}}');
+        $sharedPath = parse('{{deploy_path}}/shared');
+        if (!fileExists($sharedPath . '/_ss_environment.php')) {
+
+            if(fileExists($deployPath . '/_ss_environment.php')) {
+                run("cd {$deployPath} && cp _ss_environment.php shared/_ss_environment.php");
+            }
+            elseif(fileExists($deployPath . '/../_ss_environment.php')) {
+                run("cd {$deployPath} && cp ../_ss_environment.php shared/_ss_environment.php");
+            }
+
         }
 	}
 )->desc('Running dev/build on remote server');
