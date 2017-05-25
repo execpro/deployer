@@ -40,8 +40,10 @@ task(
 			$dbUser = ask('Please provide a username for the database', '');
 			$dbPassword = ask('Please provide a password for the database', '');
 			$domain = ask('Please provide a domain for this server', '');
+            $database = ask('Please provide a database name for this server', '');
+            $host = ask('Please provide a database host for this server', '');
 
-			$file = $env->setupEnvironmentFile("{$releasePath}", $dbUser, $dbPassword, false, $domain);
+			$file = $env->setupEnvironmentFile("{$releasePath}", $dbUser, $dbPassword, $database, $domain, $host);
 
 			file_put_contents($tmp, $file);
 			upload($tmp, $remoteEnv);

@@ -35,13 +35,17 @@ class Environment
 	 *
 	 * @return string
 	 */
-	public function setupEnvironmentFile($siteRoot, $username, $password, $database, $domain) {
+	public function setupEnvironmentFile($siteRoot, $username, $password, $database, $domain, $host) {
 		$file = $this->file;
 
 		$file = preg_replace("/(define\\('SS_DATABASE_USERNAME'), '(.*?)'\\)/", "$1, '{$username}')", $file);
 		$file = preg_replace("/(define\\('SS_DATABASE_PASSWORD'), '(.*?)'\\)/", "$1, '{$password}')", $file);
 		$file = preg_replace("/(define\\('SS_DATABASE_NAME'), '(.*?)'\\)/", "$1, '{$database}')", $file);
 		$file = preg_replace("/\\\$_FILE_TO_URL_MAPPING\\['.*'?\\] = '.*?'/", "\$_FILE_TO_URL_MAPPING[realpath('{$siteRoot}')] = 'http://{$domain}'", $file);
+
+        if($host) {
+            $file = preg_replace("/(define\\('SS_DATABASE_SERVER'), '(.*?)'\\)/", "$1, '{$host}')", $file);
+        }
 
 		return $file;
 	}
@@ -69,9 +73,15 @@ class Environment
 		}
 		unset($matches);
 
+        preg_match("/define\\('SS_DATABASE_SERVER', '(.*?)'\\)/", $env, $matches);
+		if ($matches) {
+			$credentials['host'] = $matches[1];
+		}
+		unset($matches);
+
 		preg_match("/\\\$_FILE_TO_URL_MAPPING\\['(.*?)'\\] \\= 'http\\:\\/\\/(.*?)'/", $env, $matches);
 		if ($matches) {
-			$credentials['path'] = $matches[1];
+			$credentials['path'] = realpath($matches[1]);
 			$credentials['domain'] = $matches[2];
 		}
 
