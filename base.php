@@ -1,5 +1,7 @@
 <?php
 
+namespace Deployer;
+
 require 'recipe/common.php';
 require 'recipe/composer.php';
 require 'vendor/eis/deployer/functions.php';
