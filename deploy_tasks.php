@@ -33,7 +33,7 @@ task(
 		$webDir = get('web_dir', false);
 
 		$tmp = '/tmp/env.php';
-		$remoteEnv = parse("{{deploy_path}}/../_ss_environment.php");
+		$remoteEnv = parse("{{deploy_path}}/_ss_environment.php");
 
 		if (!fileExists($remoteEnv)) {
 			$env = new \WebTorque\Deployment\Environment(file_get_contents('_ss_environment.php'));
@@ -43,7 +43,7 @@ task(
 			$dbName = ask('Please provide a name for the database', '');
 			$domain = ask('Please provide a domain for this server', '');
 
-			$file = $env->setupEnvironmentFile("{$releasePath}/{$webDir}", $dbUser, $dbPassword, $dbName, $domain);
+			$file = $env->setupEnvironmentFile("{$releasePath}", $dbUser, $dbPassword, $dbName, $domain);
 
 			file_put_contents($tmp, $file);
 			upload($tmp, $remoteEnv);
