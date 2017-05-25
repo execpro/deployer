@@ -53,6 +53,19 @@ task(
 )->desc('Setting up environment file');
 
 task(
+	'deploy:ssenv',
+	function() {
+        $releasePath = parse('{{deploy_path}}/current');
+        if (
+            !fileExists($releasePath . '/_ss_environment.php') &&
+            fileExists(parse('{{deploy_path}}/_ss_envrironment.php'))
+        ) {
+                run("cd {$releasePath} && ln -s ../../_ss_environment.php _ss_environment.php");
+        }
+	}
+)->desc('Running dev/build on remote server');
+
+task(
 	'deploy:ssbuild',
 	function() {
 		$webDir = get('web_dir');
