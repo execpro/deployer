@@ -41,7 +41,7 @@ class Environment
 		$file = preg_replace("/(define\\('SS_DATABASE_USERNAME'), '(.*?)'\\)/", "$1, '{$username}')", $file);
 		$file = preg_replace("/(define\\('SS_DATABASE_PASSWORD'), '(.*?)'\\)/", "$1, '{$password}')", $file);
 		$file = preg_replace("/(define\\('SS_DATABASE_NAME'), '(.*?)'\\)/", "$1, '{$database}')", $file);
-		$file = preg_replace("/\\\$_FILE_TO_URL_MAPPING\\['.*'?\\] = '.*?'/", "\$_FILE_TO_URL_MAPPING['{$siteRoot}'] = 'http://{$domain}'", $file);
+		$file = preg_replace("/\\\$_FILE_TO_URL_MAPPING\\['.*'?\\] = '.*?'/", "\$_FILE_TO_URL_MAPPING[realpath('{$siteRoot}')] = 'http://{$domain}'", $file);
 
 		return $file;
 	}

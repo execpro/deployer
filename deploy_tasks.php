@@ -25,7 +25,6 @@ task(
 
 
 
-
 task(
 	'deploy:environment',
 	function () {
@@ -40,10 +39,9 @@ task(
 
 			$dbUser = ask('Please provide a username for the database', '');
 			$dbPassword = ask('Please provide a password for the database', '');
-			$dbName = ask('Please provide a name for the database', '');
 			$domain = ask('Please provide a domain for this server', '');
 
-			$file = $env->setupEnvironmentFile("{$releasePath}", $dbUser, $dbPassword, $dbName, $domain);
+			$file = $env->setupEnvironmentFile("{$releasePath}", $dbUser, $dbPassword, false, $domain);
 
 			file_put_contents($tmp, $file);
 			upload($tmp, $remoteEnv);
@@ -52,29 +50,12 @@ task(
 	}
 )->desc('Setting up environment file');
 
-task(
-	'deploy:ssenv',
-	function() {
-        $deployPath = parse('{{deploy_path}}');
-        $sharedPath = parse('{{deploy_path}}/shared');
-        if (!fileExists($sharedPath . '/_ss_environment.php')) {
-
-            if(fileExists($deployPath . '/_ss_environment.php')) {
-                run("cd {$deployPath} && cp _ss_environment.php shared/_ss_environment.php");
-            }
-            elseif(fileExists($deployPath . '/../_ss_environment.php')) {
-                run("cd {$deployPath} && cp ../_ss_environment.php shared/_ss_environment.php");
-            }
-
-        }
-	}
-)->desc('Running dev/build on remote server');
 
 task(
 	'deploy:ssbuild',
 	function() {
 		$webDir = get('web_dir');
-    $releasePath = '{{deploy_path}}/current';
+        $releasePath = '{{deploy_path}}/current';
 		run("cd {$releasePath} && sake dev/build flush=1");
 	}
 )->desc('Running dev/build on remote server');
@@ -123,4 +104,4 @@ task(
         $release_path = parse('{{deploy_path}}');
         run("cd {$release_path} && sudo chgrp -R developers releases");
     }
-)->desc('Update submodules');
+)->desc('Update group ownership of releases folder');
