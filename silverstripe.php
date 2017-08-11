@@ -24,7 +24,7 @@ task('apache:restart', function () {
 
 //Create and _ss_environment.php values from the settings
 task('silverstripe:env', function () {
-    if(fileExists(parse('{{deploy_path}}') . '/releases/_ss_environment.php')) {
+    if(fileExists(parse('{{deploy_path}}') . '/releases/_ss_environment.php') || fileExists(parse('{{deploy_path}}') . '/shared/_ss_environment.php') || fileExists(parse('{{deploy_path}}') . '/_ss_environment.php')) {
         writeln('releases/_ss_environment.php present');
         return false;
     }
