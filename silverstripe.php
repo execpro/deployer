@@ -10,11 +10,11 @@ namespace Deployer;
  */
 
 task('silverstripe:build', function () {
-    return run('sudo su - apache -c {{bin/php}} {{deploy_path}}/current/framework/cli-script.php /dev/build"');
+    return run('sudo -H -u apache bash -c "{{bin/php}} {{deploy_path}}/current/framework/cli-script.php /dev/build"');
 })->desc('Run /dev/build');
 
 task('silverstripe:buildflush', function () {
-    return run('sudo su - apache -c "{{bin/php}} {{deploy_path}}/current/framework/cli-script.php /dev/build flush=all"');
+    return run('sudo -H -u apache bash -c "{{bin/php}} {{deploy_path}}/current/framework/cli-script.php /dev/build flush=all"');
 })->desc('Run /dev/build?flush=all');
 
 task('apache:restart', function () {
